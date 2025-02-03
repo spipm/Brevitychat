@@ -4,6 +4,7 @@ Creates compressed small text messages from static dicts and data types.
 
 ## Frame format
 
+```
 header
   byte 1: [4 bit version      | 4 bit language]
   byte 2: [4 bit compression  | 4 bit reserved]
@@ -12,9 +13,11 @@ payload
   [block type][block data]
   ..
   [block type][block data]
+```
 
 ## Optcode mapping
 
+```
 0x00            LINE_END
 
 0x11            GPS_BLOCK_4
@@ -36,9 +39,11 @@ payload
 
 0x41            MARKERS
 0x42            MEME
+```
 
 ## Block examples
 
+```
 - SOS (Noodoproepen)
 
     SOS | Medisch | 52.0907,5.1214 | Bloeding
@@ -92,21 +97,19 @@ payload
     MARKER | voorraad
     MARKER | start
     MARKER | end / expire
+```
 
 ## Future stuff
 
+```
 - AUTH
-    
     AUTH | Key exchange
-    
 - DEBUG
-    
     Examples
     DEBUG | com test | reply x
     DEBUG | auth challenge | encrypt x
     DEBUG | auth challenge | recall x
     DEBUG | Unsupported version
-
 - NEG > Onderhandel
 - SYS
 - context ID
@@ -118,35 +121,30 @@ payload
     - optie om waarde tijdelijk op te slaan
     - optie om waarde terug te halen
     Voorbeeld: [INFO][FEEST][START][TMP1][0][INFO][Verzamelpunt][TMP1]
+```
 
 ### Data Type blocks
 
+```
 - GPS coordinaten
 - datum/tijd in timestamp
 - link
 - nummer
 - text / raw text
+```
 
 ## Text blocks
 
 Created a custom text block compressor only to find out that this exists:
 https://github.com/siara-cc/Unishox2
 
-Ran tests and this seems to work slightly better than my custom text block compressor, so I added this as a dependancy
+Ran tests and this seems to work slightly better than my custom text block compressor, so I added it as a dependancy.
 
-Found that while browsing the source code that Unishox2 is used
-  Will the binary protocol now worsen the compression?
-  -> tests say no
-  -> Using (serialized) plaintext might provide better compression
+Found that while browsing the Meshtastic source code that Unishox2 is used. Will the binary protocol now worsen the compression? Tests say no. Using (serialized) plaintext might provide better compression.
 
 ## Encryption
 
-In Meshtastic, messages are encrypted to channels with an AES PSK, and messages are encrypted in DMs with pub crypto by default. 
-
- -> so we only need encryption if we want to encrypt for a specfic node on a public channel
- https://python.meshtastic.org/mesh_interface.html#meshtastic.mesh_interface.MeshInterface.showNodes
- -> currently not really a use case because users can set a custom channel in the lora node
- -> if needed it can be added with a wrapper
+In Meshtastic, messages are encrypted to channels with an AES PSK, and messages are encrypted in DMs with pub crypto by default. So we only need encryption if we want to encrypt for a specfic node on a public channel. Currently not really a use case because users can set a custom channel in the LoRa node. If needed it can be added with a wrapper.
 
 ## URLs
 
@@ -166,7 +164,7 @@ base122+zlib    0.000020        64
 base122+lzma    0.000957        113
 ```
 
-Plain zlib seems to be the best option for encoding urls. urls are annoying because they can be considered arbitrary byte sequences, which is not optimal for what we're trying to achieve with this protocol.
+Plain zlib seems to be the best option for encoding urls. URLs are annoying because they can be considered arbitrary byte sequences, which is not optimal for what we're trying to achieve with this protocol.
 
 ## Sources
 

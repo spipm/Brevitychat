@@ -1,4 +1,4 @@
-# Chatspreek protocol
+# Brevitychat protocol
 
 Creates small compressed text messages from static dicts and data types.
 
